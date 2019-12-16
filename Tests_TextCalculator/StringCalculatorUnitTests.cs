@@ -9,7 +9,7 @@ namespace Tests_TextCalculator
     {
         [Theory]
         [InlineData("20", 20)]
-        [InlineData("1,5000", 5001)]
+        [InlineData("1,5000", 1)]
         [InlineData("4,-3", 1)]
         [InlineData("5,tytyt", 5)]
         [InlineData("20,40", 60)]
@@ -29,6 +29,9 @@ namespace Tests_TextCalculator
         [InlineData("1,2,3,4,5\n6,7,8,9,10\n11,12", 78)]
         [InlineData("1\n2\n3", 6)]
         [InlineData("4,\n-3", 1)]
+        [InlineData("4000,\n1", 1)]
+        [InlineData("999,1000\n1001", 1999)]
+
         public void Calculator_GetsSumForString(string inputString, int expectedSum)
         {
             var sut = new StringCalculator();

@@ -13,6 +13,7 @@ namespace TextCalculator
         public string RawString { get; }
         private List<string> Delimiters { get; }
         private bool AllowNegativeValues { set;  get; }
+        private int maximumAllowedValue = 1000;
 
         /// <summary>
         /// Extracts numbers from a delimited input string
@@ -44,7 +45,15 @@ namespace TextCalculator
                 var numericValue = 0;
                 if(int.TryParse(item, out numericValue))
                 {
-                    numericValues.Add(numericValue);
+                    if (numericValue <= maximumAllowedValue)
+                    {
+                        numericValues.Add(numericValue);
+                    }
+                    else
+                    {
+                        numericValues.Add(0);
+                    }
+
                 }
                 // for anything unrecognized, add a '0'
                 else
