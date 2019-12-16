@@ -10,7 +10,7 @@ namespace TextCalculator
     public class InputStringParser
     {
         public string RawString { get; }
-        private string Delimiter { get; }
+        private List<string> Delimiters { get; }
 
         /// <summary>
         /// Extracts numbers from a delimited input string
@@ -21,9 +21,13 @@ namespace TextCalculator
         public InputStringParser(string rawString, string delimiter)
         {
             RawString = rawString;
-            Delimiter = delimiter;
+            Delimiters.Add(delimiter);
         }
-
+        public InputStringParser(string rawString, List<string> delimiters)
+        {
+            RawString = rawString;
+            Delimiters = delimiters;
+        }
 
         /// <summary>
         /// Create a list of values from the input string
@@ -32,8 +36,8 @@ namespace TextCalculator
         public List<int> GetAllNumbers()
         {
             var numericValues = new List<int>();
-            var SplitString = RawString.Split(Delimiter);
-            foreach (var item in SplitString)
+            var splitString = RawString.Split(Delimiters.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+            foreach (var item in splitString)
             {
                 var numericValue = 0;
                 if(int.TryParse(item, out numericValue))
@@ -47,7 +51,6 @@ namespace TextCalculator
                 }
             }
             return numericValues;
-        }
-       
+        }   
     }
 }

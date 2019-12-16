@@ -24,13 +24,15 @@ namespace Tests_TextCalculator
         [InlineData("1,2,", 3)]
         [InlineData("0,,1", 1)]
         [InlineData(",,", 0)]
-        [InlineData("1,2,3,4,5,6,7,8,9,10,11,12", 78)]
-
+        [InlineData("\n,", 0)]
+        [InlineData("1,2,3,4,5\n6,7,8,9,10\n11,12", 78)]
+        [InlineData("1\n2\n3", 6)]
+        [InlineData("4,\n-3", 1)]
         public void Calculator_GetsSumForString(string inputString, int expectedSum)
         {
             var sut = new StringCalculator();
             var sum = sut.Calculate(inputString);
-            Assert.Equal(sum, expectedSum);
+            Assert.Equal(expectedSum, sum);
         }
     }
 }
