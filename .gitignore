@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Tests_TextCalculator/bin/Debug/netcoreapp2.1
+/Tests_TextCalculator/obj
+/TextCalculator/bin/Debug/netcoreapp2.1
+/TextCalculator/obj
+/TextCalculatorConsoleApp/bin/Debug/netcoreapp2.1
+/TextCalculatorConsoleApp/obj
