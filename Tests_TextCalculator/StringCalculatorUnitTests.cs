@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using TextCalculator;
+using System.Collections.Generic;
 
 namespace Tests_TextCalculator
 {
@@ -31,8 +32,20 @@ namespace Tests_TextCalculator
         public void Calculator_GetsSumForString(string inputString, int expectedSum)
         {
             var sut = new StringCalculator();
-            var sum = sut.Calculate(inputString);
+            var sum = sut.Calculate(inputString, true);
             Assert.Equal(expectedSum, sum);
+        }
+        [Theory]
+        [InlineData("4,\n-3,\n 0", new int[] {-3})]
+        [InlineData("1,-2,3,4,-5\n6,-7,8,-9,10\n11,12, yh", new int[] { -2, -5, -9 })]
+        public void Calculator_ShouldThrowExceptionForNegativeValues(string inputString, int[] valuesInExceptionMessage)
+        {
+            var sut = new StringCalculator();
+            var ex = Assert.Throws<NegativeValuesNotSupportedException>(() => sut.Calculate(inputString, false));
+            foreach(var number in valuesInExceptionMessage)
+            {
+                Assert.Contains(number.ToString(), ex.Message);
+            }
         }
     }
 }

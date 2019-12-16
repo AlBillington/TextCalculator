@@ -12,7 +12,7 @@ namespace TextCalculatorConsoleApp
                 var calculator = new StringCalculator();
                 Console.WriteLine(calculator.PromptString);
                 var input = Console.ReadLine();
-                var result = calculator.Calculate(input);
+                var result = calculator.Calculate(input, false);
                 Console.WriteLine($"Result: {result}");
             }
             catch (Exception ex)

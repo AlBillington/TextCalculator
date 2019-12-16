@@ -28,9 +28,9 @@ namespace TextCalculator
             }
         }
 
-        public int Calculate(string inputString)
+        public int Calculate(string inputString, bool allowNegativeValues)
         {
-            var stringParser = new InputStringParser(inputString, Delimiters);
+            var stringParser = new InputStringParser(inputString, Delimiters, allowNegativeValues);
             return stringParser.GetAllNumbers().Sum();
         }
     }
