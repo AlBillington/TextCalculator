@@ -19,26 +19,18 @@ namespace Tests_TextCalculator
         [InlineData("0,0", 0)]
         [InlineData(" ", 0)]
         [InlineData(",", 0)]
-
+        [InlineData("1,2,3", 6)]
+        [InlineData("0,0,0", 0)]
+        [InlineData("1,2,", 3)]
+        [InlineData("0,,1", 1)]
+        [InlineData(",,", 0)]
+        [InlineData("1,2,3,4,5,6,7,8,9,10,11,12", 78)]
 
         public void Calculator_GetsSumForString(string inputString, int expectedSum)
         {
             var sut = new StringCalculator();
             var sum = sut.Calculate(inputString);
             Assert.Equal(sum, expectedSum);
-        }
-
-        [Theory]
-        [InlineData("1,2,3")]
-        [InlineData("0,0,0")]
-        [InlineData("1,2,")]
-        [InlineData("0,,1")]
-        [InlineData(",,")]
-
-        public void Calculator_ThrowsExceptionWhenTooManyValues(string inputString)
-        {
-            var sut = new StringCalculator();
-            Assert.Throws<TooManyValuesException>(() => sut.Calculate(inputString));
         }
     }
 }

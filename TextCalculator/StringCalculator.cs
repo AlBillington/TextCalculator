@@ -6,7 +6,6 @@ namespace TextCalculator
     public class StringCalculator
     {
         private string Delimiter { set; get; } = ",";
-        private int MaximumNumberOfValues { set; get; } = 2;
 
         /// <summary>
         /// A summary to provide to a user details on how to format the input string.
@@ -15,13 +14,13 @@ namespace TextCalculator
         {
             get
             {
-               return $"Enter a string of numbers delimited by '{Delimiter}'. The string must have at most {MaximumNumberOfValues} values.";
+               return $"Enter a string of numbers delimited by '{Delimiter}'.";
             }
         }
 
         public int Calculate(string inputString)
         {
-            var stringParser = new InputStringParser(inputString, Delimiter, MaximumNumberOfValues);
+            var stringParser = new InputStringParser(inputString, Delimiter);
             return stringParser.GetAllNumbers().Sum();
         }
     }
