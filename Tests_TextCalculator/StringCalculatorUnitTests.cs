@@ -38,6 +38,12 @@ namespace Tests_TextCalculator
         [InlineData("//##\n2##5,7", 7)]
         [InlineData("//%\n2#5%7\n9", 16)]
         [InlineData("_//#\n2#5", 0)]
+        //multicharacter custom delimiter tests
+        [InlineData("//[###]\n2###5", 7)]
+        [InlineData("//[123]\n21235", 7)]
+        [InlineData("//[,,]\n2,,5\n6,7", 20)]
+
+
         public void Calculator_GetsSumForString(string inputString, int expectedSum)
         {
             var sut = new StringCalculator();

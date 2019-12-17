@@ -40,12 +40,23 @@ namespace TextCalculator
 
         private void AddCustomDelimiters(ref string inputString, ref List<string> delimiters)
         {
-            var customDelimiterRegexGroups = Regex.Match(inputString, "^//(.)\n").Groups;
-            var customDelimiter = customDelimiterRegexGroups[1].Value;
+            var customDelimiter = Regex.Match(inputString, "^//(.+)\n").Groups[1].Value;
             if (!string.IsNullOrEmpty(customDelimiter))
             {
-                delimiters.Add(customDelimiter);
-                inputString = inputString.Substring(customDelimiterRegexGroups[1].Value.Length);
+                if (customDelimiter.Length == 1)
+                {
+                    delimiters.Add(customDelimiter);
+                    inputString = inputString.Substring(customDelimiter.Length);
+                }
+                else
+                {
+                    var multiCharacterDelimiter = Regex.Match(customDelimiter, @"\[(.+?)\]").Groups[1].Value;
+                    if (!string.IsNullOrEmpty(multiCharacterDelimiter))
+                    {
+                        delimiters.Add(multiCharacterDelimiter);
+                    }
+
+                }
             }
         }
     }
