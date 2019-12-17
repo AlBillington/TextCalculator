@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TextCalculatorConsoleApp": {
+      "commandName": "Project",
+      "commandLineArgs": "--delimiter K --allowNegativeValues true --upperBound 2000"
+    }
+  }
+}

@@ -46,8 +46,13 @@ namespace Tests_TextCalculator
         [InlineData("//[123][456]\n212354564", 11)]
         public void Calculator_GetsSumForString(string inputString, int expectedSum)
         {
-            var sut = new StringCalculator();
-            var sum = sut.Calculate(inputString, true).Result;
+            var parser = new InputStringParser();
+            parser.Settings.AllowNegativeValues = true;
+            parser.Settings.Delimiters.Add("\n");
+
+            var sut = new StringCalculator(parser);
+            var sum = sut.Calculate(inputString).Result;
+
             Assert.Equal(expectedSum, sum);
         }
 
@@ -59,8 +64,12 @@ namespace Tests_TextCalculator
 
         public void Calculator_GetsSumNumberSentenceForString(string inputString, string expectedNumberSentence)
         {
-            var sut = new StringCalculator();
-            var numberSentence = sut.Calculate(inputString, true).NumberSentence;
+            var parser = new InputStringParser();
+            parser.Settings.AllowNegativeValues = true;
+
+            var sut = new StringCalculator(parser);          
+            var numberSentence = sut.Calculate(inputString).NumberSentence;
+
             Assert.Equal(expectedNumberSentence, numberSentence);
         }
         [Theory]
@@ -68,8 +77,13 @@ namespace Tests_TextCalculator
         [InlineData("1,-2,3,4,-5\n6,-7,8,-9,10\n11,12, yh", new int[] { -2, -5, -9 })]
         public void Calculator_ShouldThrowExceptionForNegativeValues(string inputString, int[] valuesInExceptionMessage)
         {
-            var sut = new StringCalculator();
-            var ex = Assert.Throws<NegativeValuesNotSupportedException>(() => sut.Calculate(inputString, false));
+            var parser = new InputStringParser();
+            parser.Settings.AllowNegativeValues = false;
+            parser.Settings.Delimiters.Add("\n");
+
+            var sut = new StringCalculator(parser);
+
+            var ex = Assert.Throws<NegativeValuesNotSupportedException>(() => sut.Calculate(inputString));
             foreach (var number in valuesInExceptionMessage)
             {
                 Assert.Contains(number.ToString(), ex.Message);
