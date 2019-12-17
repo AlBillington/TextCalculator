@@ -7,23 +7,29 @@ namespace TextCalculatorConsoleApp
     {
         static void Main(string[] args)
         {
-            try
+            var calculator = new StringCalculator();
+            Console.WriteLine(calculator.PromptString);
+            Console.WriteLine("Multiline strings may be entered. Input an empty line to terminate the input.  " +
+                "The application will repeat execution until the console is closed or terminated with 'Ctrl+C'");
+            while (true)
             {
-                var calculator = new StringCalculator();
-                Console.WriteLine(calculator.PromptString);
-                string line;
-                string input = string.Empty;
-                Console.WriteLine("Multiline strings may be entered. Input an empty line to terminate the input.");
-                while (!String.IsNullOrWhiteSpace(line = Console.ReadLine()))
+                try
                 {
-                    input += line + "\n";
+                    string line;
+                    string input = string.Empty;
+                    while (!String.IsNullOrWhiteSpace(line = Console.ReadLine()))
+                    {
+                        input += line + "\n";
+                    }
+                    var result = calculator.Calculate(input.Trim(), false).NumberSentence;
+                    Console.WriteLine($"Result: {result}");
+
                 }
-                var result = calculator.Calculate(input, false).NumberSentence;
-                Console.WriteLine($"Result: {result}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error Calculating Value.  Error details: {ex.Message}");
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error Calculating Value.  Error details: {ex.Message}");
+                }
+                Console.WriteLine("\n");
             }
         }
     }

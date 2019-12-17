@@ -9,3 +9,5 @@
 /TextCalculator/obj
 /TextCalculatorConsoleApp/bin/Debug/netcoreapp2.1
 /TextCalculatorConsoleApp/obj
+/TextCalculator/bin/Release/netcoreapp2.1
+/TextCalculatorConsoleApp/bin/Release/netcoreapp2.1

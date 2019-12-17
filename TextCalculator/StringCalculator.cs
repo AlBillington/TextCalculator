@@ -23,7 +23,7 @@ namespace TextCalculator
                 }
                 string delimitersList = String.Join(", ", delimiterDisplayValues);
 
-                return $"Enter a string of numbers seperated by any of the following delimiters: {delimitersList}.  Use the syntax //{{delimiter}}\n{{numbers}} to specify a custom delimiter before the string of numbers.";
+                return $"Enter a string of numbers seperated by any of the following delimiters: {delimitersList}.  Use the syntax //[{{delimiter1}}][{{delimiter2}}][...]\\n{{numbers}} to specify custom delimiters before the string of numbers.";
             }
         }
 
