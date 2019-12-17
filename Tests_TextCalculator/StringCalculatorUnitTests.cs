@@ -8,6 +8,7 @@ namespace Tests_TextCalculator
     public class StringCalculatorUnitTests
     {
         [Theory]
+        //general tests
         [InlineData("20", 20)]
         [InlineData("1,5000", 1)]
         [InlineData("4,-3", 1)]
@@ -31,21 +32,27 @@ namespace Tests_TextCalculator
         [InlineData("4,\n-3", 1)]
         [InlineData("4000,\n1", 1)]
         [InlineData("999,1000\n1001", 1999)]
-
+        //custom delimiter tests
+        [InlineData("//#\n2#5", 7)]
+        [InlineData("//#\n2#5,7", 14)]
+        [InlineData("//##\n2##5,7", 7)]
+        [InlineData("//%\n2#5%7\n9", 16)]
+        [InlineData("_//#\n2#5", 0)]
         public void Calculator_GetsSumForString(string inputString, int expectedSum)
         {
             var sut = new StringCalculator();
             var sum = sut.Calculate(inputString, true);
             Assert.Equal(expectedSum, sum);
         }
+
         [Theory]
-        [InlineData("4,\n-3,\n 0", new int[] {-3})]
+        [InlineData("4,\n-3,\n 0", new int[] { -3 })]
         [InlineData("1,-2,3,4,-5\n6,-7,8,-9,10\n11,12, yh", new int[] { -2, -5, -9 })]
         public void Calculator_ShouldThrowExceptionForNegativeValues(string inputString, int[] valuesInExceptionMessage)
         {
             var sut = new StringCalculator();
             var ex = Assert.Throws<NegativeValuesNotSupportedException>(() => sut.Calculate(inputString, false));
-            foreach(var number in valuesInExceptionMessage)
+            foreach (var number in valuesInExceptionMessage)
             {
                 Assert.Contains(number.ToString(), ex.Message);
             }
