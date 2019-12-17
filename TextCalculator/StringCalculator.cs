@@ -27,35 +27,38 @@ namespace TextCalculator
             }
         }
 
-
-
-        public int Calculate(string inputString, bool allowNegativeValues)
+        public CalculatorResult Calculate(string inputString, bool allowNegativeValues)
         {
             var delimiters = DefaultDelimiters;
             AddCustomDelimiters(ref inputString, ref delimiters);
 
             var stringParser = new InputStringParser(inputString, delimiters, allowNegativeValues);
-            return stringParser.GetAllNumbers().Sum();
+            var values = stringParser.GetAllNumbers();
+            return new CalculatorResult(values, values.Sum());
         }
+
 
         private void AddCustomDelimiters(ref string inputString, ref List<string> delimiters)
         {
-            var customDelimiter = Regex.Match(inputString, "^//(.+)\n").Groups[1].Value;
+            var customDelimiterMatch = Regex.Match(inputString, "^//(.+)\n");
+            var customDelimiter = customDelimiterMatch.Groups[1].Value;
             if (!string.IsNullOrEmpty(customDelimiter))
             {
+                inputString = inputString.Substring(customDelimiterMatch.Value.Length);
                 if (customDelimiter.Length == 1)
                 {
                     delimiters.Add(customDelimiter);
-                    inputString = inputString.Substring(customDelimiter.Length);
                 }
                 else
                 {
-                    var multiCharacterDelimiter = Regex.Match(customDelimiter, @"\[(.+?)\]").Groups[1].Value;
-                    if (!string.IsNullOrEmpty(multiCharacterDelimiter))
+                    var multiCharacterDelimiters =
+                        (from match in Regex.Matches(customDelimiter, @"\[(.+?)\]")
+                        where !string.IsNullOrEmpty(match.Groups[1].Value)
+                        select match.Groups[1].Value).ToList();
+                    foreach (var delimiter in multiCharacterDelimiters)
                     {
-                        delimiters.Add(multiCharacterDelimiter);
+                        delimiters.Add(delimiter);
                     }
-
                 }
             }
         }

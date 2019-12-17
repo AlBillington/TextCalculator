@@ -42,15 +42,27 @@ namespace Tests_TextCalculator
         [InlineData("//[###]\n2###5", 7)]
         [InlineData("//[123]\n21235", 7)]
         [InlineData("//[,,]\n2,,5\n6,7", 20)]
-
-
+        [InlineData("//[*][!!][r9r]\n11r9r22*hh*33!!44", 110)]
+        [InlineData("//[123][456]\n212354564", 11)]
         public void Calculator_GetsSumForString(string inputString, int expectedSum)
         {
             var sut = new StringCalculator();
-            var sum = sut.Calculate(inputString, true);
+            var sum = sut.Calculate(inputString, true).Result;
             Assert.Equal(expectedSum, sum);
         }
 
+        [Theory]
+        [InlineData("20", "20 = 20")]
+        [InlineData("1,5000", "1+0 = 1")]
+        [InlineData("//[*][!!][r9r]\n11r9r22*hh*33!!44", "11+22+0+33+44 = 110")]
+        [InlineData("2, 4, rrrr, 1001, 6", "2+4+0+0+6 = 12")]
+
+        public void Calculator_GetsSumNumberSentenceForString(string inputString, string expectedNumberSentence)
+        {
+            var sut = new StringCalculator();
+            var numberSentence = sut.Calculate(inputString, true).NumberSentence;
+            Assert.Equal(expectedNumberSentence, numberSentence);
+        }
         [Theory]
         [InlineData("4,\n-3,\n 0", new int[] { -3 })]
         [InlineData("1,-2,3,4,-5\n6,-7,8,-9,10\n11,12, yh", new int[] { -2, -5, -9 })]

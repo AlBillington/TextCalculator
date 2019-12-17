@@ -39,7 +39,7 @@ namespace TextCalculator
         public List<int> GetAllNumbers()
         {
             var numericValues = new List<int>();
-            var splitString = RawString.Split(Delimiters.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+            var splitString = RawString.Split(Delimiters.ToArray(), StringSplitOptions.None);
             foreach (var item in splitString)
             {
                 var numericValue = 0;

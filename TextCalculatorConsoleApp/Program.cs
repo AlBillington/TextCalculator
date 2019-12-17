@@ -18,7 +18,7 @@ namespace TextCalculatorConsoleApp
                 {
                     input += line + "\n";
                 }
-                var result = calculator.Calculate(input, false);
+                var result = calculator.Calculate(input, false).NumberSentence;
                 Console.WriteLine($"Result: {result}");
             }
             catch (Exception ex)
