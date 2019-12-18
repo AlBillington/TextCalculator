@@ -2,7 +2,7 @@
   "profiles": {
     "TextCalculatorConsoleApp": {
       "commandName": "Project",
-      "commandLineArgs": "--delimiter K --allowNegativeValues true --upperBound 2000"
+      "commandLineArgs": "--operation Subtract --delimiter K --allowNegativeValues true --upperBound 2000"
     }
   }
 }

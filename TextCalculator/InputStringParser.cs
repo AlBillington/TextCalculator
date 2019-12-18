@@ -8,7 +8,7 @@ namespace TextCalculator
     /// <summary>
     /// Extracts numbers from a delimited input string
     /// </summary>
-    public class InputStringParser
+    public class InputStringParser : IInputStringParser
     {
         public InputStringParserSettings Settings { set; get; } = new InputStringParserSettings();
 
@@ -23,8 +23,7 @@ namespace TextCalculator
             var splitString = rawString.Split(Settings.Delimiters.ToArray(), StringSplitOptions.None);
             foreach (var item in splitString)
             {
-                var numericValue = 0;
-                if(int.TryParse(item, out numericValue))
+                if (int.TryParse(item, out int numericValue))
                 {
                     if (numericValue <= Settings.MaximumValue)
                     {
@@ -42,12 +41,12 @@ namespace TextCalculator
                     numericValues.Add(0);
                 }
             }
-            if(!Settings.AllowNegativeValues)
+            if (!Settings.AllowNegativeValues)
             {
                 var negativeValues = (from numeric in numericValues
-                where numeric < 0
-                select numeric).ToList();
-                if(negativeValues.Count > 0)
+                                      where numeric < 0
+                                      select numeric).ToList();
+                if (negativeValues.Count > 0)
                 {
                     throw new NegativeValuesNotSupportedException(
                         $"Negative values are not supported, but the following negative values are present in the input: {String.Join(",", negativeValues)}"
@@ -55,6 +54,6 @@ namespace TextCalculator
                 }
             }
             return numericValues;
-        }        
+        }
     }
 }

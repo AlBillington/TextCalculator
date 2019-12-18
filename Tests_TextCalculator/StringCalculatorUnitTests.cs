@@ -51,9 +51,61 @@ namespace Tests_TextCalculator
             parser.Settings.Delimiters.Add("\n");
 
             var sut = new StringCalculator(parser);
-            var sum = sut.Calculate(inputString).Result;
+            var sum = sut.Calculate(inputString, new AdditionOperation()).Result;
 
             Assert.Equal(expectedSum, sum);
+        }
+
+        [Theory]
+        //general tests
+        [InlineData("20", 20)]
+        [InlineData("5,2", 3)]
+        [InlineData("4,-3,6", 1)]
+        public void Calculator_GetsDifferenceForString(string inputString, int expectedDifference)
+        {
+            var parser = new InputStringParser();
+            parser.Settings.AllowNegativeValues = true;
+            parser.Settings.Delimiters.Add("\n");
+
+            var sut = new StringCalculator(parser);
+            var difference = sut.Calculate(inputString, new SubtractionOperation()).Result;
+
+            Assert.Equal(expectedDifference, difference);
+        }
+
+        [Theory]
+        //general tests
+        [InlineData(",", 0)]
+        [InlineData("20", 20)]
+        [InlineData("5,2", 10)]
+        [InlineData("4,-3,6", 4*-3*6)]
+        public void Calculator_GetsProductForString(string inputString, int expectedProduct)
+        {
+            var parser = new InputStringParser();
+            parser.Settings.AllowNegativeValues = true;
+            parser.Settings.Delimiters.Add("\n");
+
+            var sut = new StringCalculator(parser);
+            var product = sut.Calculate(inputString, new MultiplicationOperation()).Result;
+
+            Assert.Equal(expectedProduct, product);
+        }
+
+        [Theory]
+        //general tests
+        [InlineData("20", 20)]
+        [InlineData("6,2", 6/2)]
+        [InlineData("24,-3,6", 24/-3/6)]
+        public void Calculator_GetsQuotientForString(string inputString, int expectedQuotient)
+        {
+            var parser = new InputStringParser();
+            parser.Settings.AllowNegativeValues = true;
+            parser.Settings.Delimiters.Add("\n");
+
+            var sut = new StringCalculator(parser);
+            var quotient = sut.Calculate(inputString, new DivisionOperation()).Result;
+
+            Assert.Equal(expectedQuotient, quotient);
         }
 
         [Theory]
@@ -68,7 +120,7 @@ namespace Tests_TextCalculator
             parser.Settings.AllowNegativeValues = true;
 
             var sut = new StringCalculator(parser);          
-            var numberSentence = sut.Calculate(inputString).NumberSentence;
+            var numberSentence = sut.Calculate(inputString, new AdditionOperation()).NumberSentence;
 
             Assert.Equal(expectedNumberSentence, numberSentence);
         }
@@ -83,7 +135,7 @@ namespace Tests_TextCalculator
 
             var sut = new StringCalculator(parser);
 
-            var ex = Assert.Throws<NegativeValuesNotSupportedException>(() => sut.Calculate(inputString));
+            var ex = Assert.Throws<NegativeValuesNotSupportedException>(() => sut.Calculate(inputString, new AdditionOperation()));
             foreach (var number in valuesInExceptionMessage)
             {
                 Assert.Contains(number.ToString(), ex.Message);

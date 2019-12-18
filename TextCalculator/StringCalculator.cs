@@ -7,7 +7,7 @@ namespace TextCalculator
 {
     public class StringCalculator
     {
-        private InputStringParser StringParser { set; get; }
+        private IInputStringParser StringParser { set; get; }
         /// <summary>
         /// A summary to provide to a user details on how to format the input string.
         /// </summary>
@@ -28,7 +28,7 @@ namespace TextCalculator
                     $"Maximum Value Supported: {StringParser.Settings.MaximumValue}\n";
             }
         }
-        public StringCalculator(InputStringParser stringParser)
+        public StringCalculator(IInputStringParser stringParser)
         {
             StringParser = stringParser;
         }
@@ -37,13 +37,14 @@ namespace TextCalculator
             StringParser = new InputStringParser();
         }
 
-        public CalculatorResult Calculate(string inputString)
+
+        public CalculatorResult Calculate(string inputString, IOperation operation)
         {
             string numbersString;
             StringParser.Settings.Delimiters.AddRange(GetCustomDelimiters(inputString, out numbersString));
 
             var values = StringParser.GetAllNumbers(numbersString);
-            return new CalculatorResult(values, values.Sum());
+            return new CalculatorResult(values, operation);
         }
 
 

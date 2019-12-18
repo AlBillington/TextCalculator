@@ -11,7 +11,7 @@ namespace TextCalculatorConsoleApp
         static void Main(string[] args)
         {
             var parser = new InputStringParser();
-
+            IOperation operation = new AdditionOperation(); ;
             var argValues = CommandLine.Parser.Default.ParseArguments<CommandLineArgumentOptions>(args);
             if (!argValues.Errors.Any())
             {
@@ -22,6 +22,22 @@ namespace TextCalculatorConsoleApp
                 }
                 parser.Settings.AllowNegativeValues = argValues.Value.AllowNegativeValues;
                 parser.Settings.MaximumValue = argValues.Value.MaximumValue;
+                if(argValues.Value.Operation == Operations.Add)
+                {
+                    operation = new AdditionOperation();
+                }
+                else if (argValues.Value.Operation == Operations.Subtract)
+                {
+                    operation = new SubtractionOperation();
+                }
+                else if (argValues.Value.Operation == Operations.Multiply)
+                {
+                    operation = new MultiplicationOperation();
+                }
+                else if (argValues.Value.Operation == Operations.Divide)
+                {
+                    operation = new DivisionOperation();
+                }
             }
             else
             {
@@ -42,7 +58,7 @@ namespace TextCalculatorConsoleApp
                     {
                         input += line + "\n";
                     }
-                    var result = calculator.Calculate(input.Trim()).NumberSentence;
+                    var result = calculator.Calculate(input.Trim(), operation).NumberSentence;
                     Console.WriteLine($"Result: {result}");
 
                 }
@@ -53,8 +69,26 @@ namespace TextCalculatorConsoleApp
                 Console.WriteLine("\n");
             }
         }
+
+        enum Operations
+        {
+            Add,
+            Subtract,
+            Multiply,
+            Divide
+        }
+        enum ErrorCode : ushort
+        {
+            None = 0,
+            Unknown = 1,
+            ConnectionLost = 100,
+            OutlierReading = 200
+        }
         class CommandLineArgumentOptions
         {
+            [Option("operation", Required = false,
+HelpText = "An alternative delimiter to support in addition to ','.")]
+            public Operations Operation { get; set; } = Operations.Add;
             [Option("delimiter", Required = false,
             HelpText = "An alternative delimiter to support in addition to ','.")]
             public string AlternateDelimiter { get; set; } = "\n";

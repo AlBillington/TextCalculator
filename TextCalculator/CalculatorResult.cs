@@ -7,22 +7,24 @@ namespace TextCalculator
 {
     public class CalculatorResult
     {
+        private IOperation Operation { get; }
         public List<int> Values { get; }
         public int Result { get; }
         public string NumberSentence
         {
             get
             {
-                string Operator = "+";
+                string Operator = Operation.OperatorString;
                 return $"{string.Join(Operator, Values)} = {Result}";
             }
         }
 
 
-        public CalculatorResult(List<int> values, int result)
+        public CalculatorResult(List<int> values, IOperation operation)
         {
             Values = values;
-            Result = result;
+            Operation = operation;
+            Result = operation.Calculate(values);
         }
     }
 }
