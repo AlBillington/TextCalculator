@@ -79,7 +79,7 @@ namespace TextCalculatorConsoleApp
         class CommandLineArgumentOptions
         {
             [Option("operation", Required = false,
-HelpText = "An alternative delimiter to support in addition to ','.")]
+            HelpText = "An alternative delimiter to support in addition to ','.")]
             public Operations Operation { get; set; } = Operations.Add;
             [Option("delimiter", Required = false,
             HelpText = "An alternative delimiter to support in addition to ','.")]

@@ -36,8 +36,6 @@ namespace TextCalculator
         {
             StringParser = new InputStringParser();
         }
-
-
         public CalculatorResult Calculate(string inputString, IOperation operation)
         {
             string numbersString;
@@ -46,8 +44,6 @@ namespace TextCalculator
             var values = StringParser.GetAllNumbers(numbersString);
             return new CalculatorResult(values, operation);
         }
-
-
         private List<string> GetCustomDelimiters(string inputString, out string numbersString)
         {
             var delimiters = new List<string>();
